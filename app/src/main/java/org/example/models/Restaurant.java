@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-    private String restaurantName;
+    private String name;
     private String address;
     private String city;
     private List<Review> restaurantReviews;
 
-    public Restaurant(String restaurantName, String address, String city) {
-        this.restaurantName = restaurantName;
+    public Restaurant(String name, String address, String city) {
+        this.name = name;
         this.address = address;
         this.city = city;
         this.restaurantReviews = new ArrayList<>();
@@ -19,13 +19,16 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    // getters and setters
-    public String getRestaurantName() {
-        return restaurantName;
+    public Restaurant(String name) {
     }
 
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
+    // getters and setters
+    public String getRestaurantName() {
+        return name;
+    }
+
+    public void setRestaurantName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
