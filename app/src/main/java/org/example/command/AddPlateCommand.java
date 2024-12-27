@@ -7,9 +7,6 @@ public class AddPlateCommand implements ICommand{
     private PlateController plateController;
 
     public AddPlateCommand(PlateController plateController) {
-    }
-
-    public void addPlateCommand(PlateController plateController) {
         this.plateController = plateController;
     }
 

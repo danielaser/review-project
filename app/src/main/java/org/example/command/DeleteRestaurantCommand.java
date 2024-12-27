@@ -6,9 +6,6 @@ public class DeleteRestaurantCommand implements ICommand{
     private RestaurantController restaurantController;
 
     public DeleteRestaurantCommand(RestaurantController restaurantController) {
-    }
-
-    public void deleteRestaurantCommand(RestaurantController restaurantController) {
         this.restaurantController = restaurantController;
     }
 

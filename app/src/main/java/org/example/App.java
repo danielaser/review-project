@@ -20,19 +20,18 @@ public class App {
 
     public static void main(String[] args) {
         RestaurantRepository restaurantRepository = RestaurantRepository.getInstance();
+
         RestaurantService restaurantService = new RestaurantService(restaurantRepository);
         PlateService plateService = new PlateService(restaurantRepository);
 
         RestaurantController restaurantController = new RestaurantController(restaurantService);
         PlateController plateController = new PlateController(plateService);
 
-        // Comandos del menú de usuario
         UserMenu menu = new UserMenu();
         menu.addCommand(1, new AddRestaurantCommand(restaurantController));
-        menu.addCommand(2, new DeleteRestaurantCommand(restaurantController));
+        menu.addCommand(3, new DeleteRestaurantCommand(restaurantController));
         menu.addCommand(4, new AddPlateCommand(plateController));
 
-        // Mostrar menú al usuario
         menu.showMenu();
     }
 }
