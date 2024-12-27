@@ -29,7 +29,7 @@ public class RestaurantRepository {
         restaurants.remove(name);
     }
 
-    public Restaurant updateRestaurant(String name) {
+    public Restaurant getRestaurant(String name) {
         return restaurants.get(name);
     }
 

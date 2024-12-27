@@ -10,4 +10,16 @@ public class Menu {
         this.plates = new HashSet<>();
     }
 
+    public void addPlate(Plate plate) {
+        plates.add(plate);
+    }
+
+    public void deletePlate(Plate plate) {
+        plates.remove(plate);
+    }
+
+    public Set<Plate> getPlates() {
+        return plates;
+    }
+
 }

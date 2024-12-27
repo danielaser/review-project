@@ -7,19 +7,29 @@ public class Restaurant {
     private String name;
     private String address;
     private String city;
-    private List<Review> restaurantReviews;
+    private Menu menu;
+    private List<Review> reviews;
 
     public Restaurant(String name, String address, String city) {
         this.name = name;
         this.address = address;
         this.city = city;
-        this.restaurantReviews = new ArrayList<>();
+        this.menu = new Menu();
+        this.reviews = new ArrayList<>();
     }
 
     public Restaurant() {
     }
 
     public Restaurant(String name) {
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
     }
 
     // getters and setters
@@ -47,11 +57,11 @@ public class Restaurant {
         this.city = city;
     }
 
-    public List<Review> getRestaurantReviews() {
-        return restaurantReviews;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public void setRestaurantReviews(List<Review> restaurantReviews) {
-        this.restaurantReviews = restaurantReviews;
+        this.reviews = reviews;
     }
 }

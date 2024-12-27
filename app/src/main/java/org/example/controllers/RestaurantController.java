@@ -5,15 +5,15 @@ import org.example.services.RestaurantService;
 
 public class RestaurantController {
 
-    private final RestaurantService restaurantService;
+    private RestaurantService restaurantService;
 
-    public RestaurantController() {
-        this.restaurantService = new RestaurantService();
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
     }
 
     public void addRestaurant(String name, String address, String city) {
-        restaurantService.addRestaurant(name, address, city);
-        System.out.println("El restaurante se ha agregado exitosamente.");
+        Restaurant restaurant = new Restaurant(name, address, city);
+        restaurantService.addRestaurant(restaurant);
     }
 
     public void deleteRestaurant(String name) {

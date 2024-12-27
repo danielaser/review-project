@@ -7,12 +7,11 @@ public class RestaurantService {
 
     private RestaurantRepository restaurantRepository;
 
-    public RestaurantService() {
-        this.restaurantRepository = restaurantRepository.getInstance();
+    public RestaurantService(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
     }
 
-    public void addRestaurant(String name, String address, String city) {
-        Restaurant restaurant = new Restaurant(name, address, city);
+    public void addRestaurant(Restaurant restaurant) {
         restaurantRepository.addRestaurant(restaurant);
     }
 
