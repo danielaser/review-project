@@ -1,5 +1,5 @@
 package org.example.observer;
 
 public interface IObserver {
-    void update();
+    void notify(String message);
 }

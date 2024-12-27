@@ -1,21 +1,23 @@
 package org.example.models;
 
+import org.example.observer.Observable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
-public class Restaurant {
+public class Restaurant extends Observable {
     private String name;
     private String address;
     private String city;
     private Menu menu;
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     public Restaurant(String name, String address, String city) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.menu = new Menu();
-        this.reviews = new ArrayList<>();
     }
 
     public Restaurant() {
@@ -24,12 +26,20 @@ public class Restaurant {
     public Restaurant(String name) {
     }
 
-    public Menu getMenu() {
-        return menu;
-    }
 
     public void addReview(Review review) {
         reviews.add(review);
+        notifyObservers("Nueva review añadida al restaurante: " + name);
+        calculateRatingAverage();
+    }
+
+    private void calculateRatingAverage() {
+        double average = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+        notifyObservers("La calificación promedio del restaurante '" + name + "' es ahora: " + average);
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     // getters and setters

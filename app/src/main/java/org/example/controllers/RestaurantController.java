@@ -1,7 +1,11 @@
 package org.example.controllers;
 
 import org.example.models.Restaurant;
+import org.example.observer.EntityObserver;
+import org.example.observer.IObserver;
 import org.example.services.RestaurantService;
+
+import java.util.Observer;
 
 public class RestaurantController {
 
@@ -13,6 +17,7 @@ public class RestaurantController {
 
     public void addRestaurant(String name, String address, String city) {
         Restaurant restaurant = new Restaurant(name, address, city);
+        restaurant.addObserver(new EntityObserver("Restaurante"));
         restaurantService.addRestaurant(restaurant);
     }
 
