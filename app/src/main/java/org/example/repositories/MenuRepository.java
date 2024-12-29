@@ -31,7 +31,10 @@ public class MenuRepository {
         return menus.get(name);
     }
 
-    public void deleteMenu(String name) {
-        menus.remove(name);
+    public void deletePlateFromMenu(Restaurant restaurant, String plateName) {
+        Menu menu = menus.get(restaurant);
+        if (menu != null) {
+            menu.deletePlate(plateName);
+        }
     }
 }

@@ -26,10 +26,12 @@ public class MenuService {
         restaurant.getMenu().addPlate(plate);
     }
 
-    public void deleteRestaurantPlate(String restaurantName, Plate plato) {
+    public void deleteRestaurantPlate(String restaurantName, String plateName) {
         Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
         if (restaurant != null) {
-            restaurant.getMenu().deletePlate(plato);
+            menuRepository.deletePlateFromMenu(restaurant, plateName);
+        } else {
+            System.out.println("Restaurante no encontrado.");
         }
     }
 }

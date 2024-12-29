@@ -4,7 +4,6 @@ import org.example.controllers.RestaurantController;
 import org.example.models.Restaurant;
 
 import java.util.Map;
-import java.util.Set;
 
 public class GetRestaurantsCommand implements ICommand{
 
@@ -17,11 +16,12 @@ public class GetRestaurantsCommand implements ICommand{
     @Override
     public void execute() {
         Map<String, Restaurant> restaurantMap = restaurantController.getRestaurants();
-        Set<String> restaurantNames = restaurantMap.keySet();
-
         System.out.println("Lista de restaurantes disponibles:");
-        for (String name : restaurantNames) {
-            System.out.println("- " + name);
+        for (Restaurant restaurant : restaurantMap.values()) {
+            System.out.println("\nNombre: " + restaurant.getRestaurantName());
+            System.out.println("Direccion: " + restaurant.getAddress());
+            System.out.println("Ciudad: " + restaurant.getCity());
+            System.out.println("-----------------------");
         }
     }
 }

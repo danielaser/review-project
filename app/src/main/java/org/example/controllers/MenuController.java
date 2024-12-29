@@ -15,6 +15,10 @@ public class MenuController {
         menuService.addRestaurantPlate(restaurantName, plateName, price);
     }
 
+    public void deletePlateToRestaurant(String restaurantName, String plateName) {
+        menuService.deleteRestaurantPlate(restaurantName, plateName);
+    }
+
 //    public void deletePlateToRestaurant(String plateName, Plate plato) {
 //        menuService.deleteRestaurantPlate(restaurantName, plato);
 //    }
