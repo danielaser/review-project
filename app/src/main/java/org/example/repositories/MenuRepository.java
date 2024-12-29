@@ -27,7 +27,6 @@ public class MenuRepository {
         menus.put(menu.getRestaurant().getRestaurantName(), menu);
     }
 
-    //obtener el menu si existe dependiendo del nombre del restaurante
     public Menu getMenu(String name) {
         return menus.get(name);
     }

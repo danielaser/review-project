@@ -7,6 +7,11 @@ public class Menu {
     private Restaurant restaurant;
     private Set<Plate> plates;
 
+    public Menu(Restaurant restaurant) {
+        this.restaurant = restaurant;
+        this.plates = new HashSet<>();
+    }
+
     public Menu() {
         this.plates = new HashSet<>();
     }

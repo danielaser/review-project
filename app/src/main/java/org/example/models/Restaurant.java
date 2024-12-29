@@ -18,16 +18,16 @@ public class Restaurant implements IObservable {
         this.name = name;
         this.address = address;
         this.city = city;
-        this.menu = new Menu();
+        this.menu = new Menu(this);
     }
 
     public Restaurant() {
-        this.menu = new Menu();
+        this.menu = new Menu(this);
     }
 
     public Restaurant(String name) {
         this.name = name;
-        this.menu = new Menu();
+        this.menu = new Menu(this);
     }
 
     public void addReview(Review review) {
@@ -38,7 +38,7 @@ public class Restaurant implements IObservable {
 
     private void calculateRatingAverage() {
         double average = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
-        notifyObservers("La calificación promedio del restaurante es ahora: " + average);
+//        notifyObservers("La calificación promedio del restaurante es ahora: " + average);
     }
 
     @Override

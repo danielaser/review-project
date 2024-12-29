@@ -3,10 +3,7 @@
  */
 package org.example;
 
-import org.example.command.AddRestaurantCommand;
-import org.example.command.AddPlateCommand;
-import org.example.command.DeleteRestaurantCommand;
-import org.example.command.UserMenu;
+import org.example.command.*;
 import org.example.controllers.MenuController;
 import org.example.controllers.RestaurantController;
 
@@ -22,8 +19,10 @@ public class App {
 
         UserMenu menu = new UserMenu();
         menu.addCommand(1, new AddRestaurantCommand(restaurantController));
+        menu.addCommand(2, new EditRestaurantCommand(restaurantController));
         menu.addCommand(3, new DeleteRestaurantCommand(restaurantController));
-        menu.addCommand(4, new AddPlateCommand(menuController));
+        menu.addCommand(4, new GetRestaurantsCommand(restaurantController));
+        menu.addCommand(5, new AddPlateCommand(menuController));
 
         menu.showMenu();
     }

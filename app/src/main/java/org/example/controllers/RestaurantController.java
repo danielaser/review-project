@@ -1,6 +1,9 @@
 package org.example.controllers;
 
+import org.example.models.Restaurant;
 import org.example.services.RestaurantService;
+
+import java.util.Map;
 
 public class RestaurantController {
 
@@ -17,5 +20,16 @@ public class RestaurantController {
 
     public void deleteRestaurant(String name) {
         restaurantService.deleteRestaurant(name);
+    }
+
+    public void editRestaurant(String currentName, String newName, String newAddress, String newCity) {
+        boolean success = restaurantService.editRestaurant(currentName, newName, newAddress, newCity);
+        if (!success) {
+            System.out.println("No se pudo editar el restaurante.");
+        }
+    }
+
+    public Map<String, Restaurant> getRestaurants(){
+       return restaurantService.getRestaurants();
     }
 }
