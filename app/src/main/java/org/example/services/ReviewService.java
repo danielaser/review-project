@@ -7,6 +7,8 @@ import org.example.models.Review;
 import org.example.repositories.RestaurantRepository;
 import org.example.repositories.ReviewRepository;
 
+import java.util.LinkedList;
+
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -27,11 +29,66 @@ public class ReviewService {
         }
     }
 
-    public void deleteReview(Review review) {
-        reviewRepository.deleteReview(review);
+    public void addPlateReview(String restaurantName, String plateName, Double rating, String comment) {
+        Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
+        if (restaurant != null) {
+            Plate plate = restaurant.getMenu().getPlateByName(plateName);
+            if (plate != null) {
+                Review review = ReviewFactory.createReview(plate, rating, comment);
+                reviewRepository.addReview(review);
+                System.out.println("Review agregada al plato: " + plateName);
+            } else {
+                System.out.println("Plato no encontrado en el restaurante: " + restaurantName);
+            }
+        } else {
+            System.out.println("Restaurante no encontrado.");
+        }
     }
 
-    public double calculateAverageRating(String targetType) {
-        return reviewRepository.calculateAverageRating(targetType);
+    public LinkedList<Review> getRestaurantReviews(String restaurantName) {
+        Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
+        if (restaurant == null) {
+            System.out.println("Restaurante no encontrado.");
+            return new LinkedList<>();
+        }
+
+        LinkedList<Review> reviews = reviewRepository.getReviewsByTarget(restaurant);
+        double averageRating = reviewRepository.calculateAverageRating(restaurant);
+
+        System.out.println("Reviews del restaurante: " + restaurantName);
+        reviews.forEach(review ->
+                System.out.println("- Calificación: " + review.getRating() + ", Comentario: " + review.getComment())
+        );
+        System.out.println(reviews.isEmpty() ? "No hay reviews para este restaurante." :
+                String.format("Calificación promedio del restaurante: %.2f%n", averageRating));
+
+        return reviews;
     }
+
+    public LinkedList<Review> getPlateReviews(String restaurantName, String plateName) {
+        Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
+        if (restaurant == null) {
+            System.out.println("Restaurante no encontrado.");
+            return new LinkedList<>();
+        }
+
+        Plate plate = restaurant.getMenu().getPlateByName(plateName);
+        if (plate == null) {
+            System.out.println("Plato no encontrado en el menú del restaurante: " + restaurantName);
+            return new LinkedList<>();
+        }
+
+        LinkedList<Review> reviews = reviewRepository.getReviewsByTarget(plate);
+        double averageRating = reviewRepository.calculateAverageRating(plate);
+
+        System.out.println("Reviews del plato: " + plateName + " en el restaurante: " + restaurantName);
+        reviews.forEach(review ->
+                System.out.println("- Calificación: " + review.getRating() + ", Comentario: " + review.getComment())
+        );
+        System.out.println(reviews.isEmpty() ? "No hay reviews para este plato." :
+                String.format("Calificación promedio del plato: %.2f%n", averageRating));
+
+        return reviews;
+    }
+
 }

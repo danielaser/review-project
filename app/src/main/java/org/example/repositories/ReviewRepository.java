@@ -23,19 +23,21 @@ public class ReviewRepository {
         reviews.add(review);
     }
 
-    public void deleteReview(Review review) {
-        reviews.remove(review);
+    public LinkedList<Review> getReviewsByTarget(Object target) {
+        LinkedList<Review> filteredReviews = new LinkedList<>();
+        for (Review review : reviews) {
+            if (review.getTargetType().equals(target)) {
+                filteredReviews.add(review);
+            }
+        }
+        return filteredReviews;
     }
 
-    public LinkedList<Review> getReviews() {
-        return reviews;
-    }
-
-    public double calculateAverageRating(String targetType) {
+    public double calculateAverageRating(Object target) {
         double totalRating = 0;
         int count = 0;
         for (Review review : reviews) {
-            if (review.getTargetType().equals(targetType)) {
+            if (review.getTargetType().equals(target)) {
                 totalRating += review.getRating();
                 count++;
             }

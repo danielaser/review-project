@@ -30,17 +30,6 @@ public class Restaurant implements IObservable {
         this.menu = new Menu(this);
     }
 
-    public void addReview(Review review) {
-        reviews.add(review);
-//        notifyObservers("Nueva review añadida al restaurante: ");
-        calculateRatingAverage();
-    }
-
-    private void calculateRatingAverage() {
-        double average = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
-//        notifyObservers("La calificación promedio del restaurante es ahora: " + average);
-    }
-
     @Override
     public void addObserver(IObserver observer) {
         observers.add(observer);

@@ -17,21 +17,6 @@ public class Plate {
     public Plate() {
     }
 
-    public void addReview(Review review) {
-        reviews.add(review);
-    }
-
-    public double getRatingAverage() {
-        if (reviews.isEmpty()) {
-            return 0;
-        }
-        int total = 0;
-        for (Review review : reviews) {
-            total += review.getRating();
-        }
-        return (double) total / reviews.size();
-    }
-
     // getters and setters
     public String getPlateName() {
         return plateName;

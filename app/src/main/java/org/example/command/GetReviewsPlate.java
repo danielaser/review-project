@@ -4,10 +4,10 @@ import org.example.controllers.ReviewController;
 
 import java.util.Scanner;
 
-public class AddPlateReviewCommand implements ICommand{
+public class GetReviewsPlate implements ICommand{
     private ReviewController reviewController;
 
-    public AddPlateReviewCommand(ReviewController reviewController) {
+    public GetReviewsPlate(ReviewController reviewController) {
         this.reviewController = reviewController;
     }
 
@@ -18,12 +18,7 @@ public class AddPlateReviewCommand implements ICommand{
         String restaurantName = scanner.nextLine();
         System.out.print("Ingrese el nombre del plato: ");
         String plateName = scanner.nextLine();
-        System.out.print("Ingrese la calificacion de 1.0 a 5.0: ");
-        Double rating = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.print("Ingrese un comentario: ");
-        String comment = scanner.nextLine();
 
-        reviewController.addPlateReview(restaurantName, plateName, rating, comment);
+        reviewController.getPlateReviews(restaurantName, plateName);
     }
 }

@@ -26,6 +26,9 @@ public class App {
         menu.addCommand(7, new DeletePlateCommand(menuController));
         menu.addCommand(8, new GetMenuCommand(menuController));
         menu.addCommand(9, new AddRestaurantReviewCommand(reviewController));
+        menu.addCommand(10, new AddPlateReviewCommand(reviewController));
+        menu.addCommand(11, new GetReviewsRestaurant(reviewController));
+        menu.addCommand(12, new GetReviewsPlate(reviewController));
 
         menu.showMenu();
     }
