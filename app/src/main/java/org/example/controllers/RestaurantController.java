@@ -20,10 +20,12 @@ public class RestaurantController {
 
     public void deleteRestaurant(String name) {
         restaurantService.deleteRestaurant(name);
+        System.out.println("El restaurante se ha eliminado.");
     }
 
     public void editRestaurant(String currentName, String newName, String newAddress, String newCity) {
         boolean success = restaurantService.editRestaurant(currentName, newName, newAddress, newCity);
+        System.out.println("La informacion del restaurante se ha actualizado.");
         if (!success) {
             System.out.println("No se pudo editar el restaurante.");
         }

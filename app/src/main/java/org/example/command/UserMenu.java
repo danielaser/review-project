@@ -24,10 +24,11 @@ public class UserMenu {
             System.out.println("5. Agregar plato a un menu");
             System.out.println("6. Editar menu");
             System.out.println("7. Eliminar plato de un menu");
-            System.out.println("8. Crear review para restaurante");
-            System.out.println("9. Crear review para plato");
-            System.out.println("10. Ver lista de reviews de un restaurante");
-            System.out.println("11. Ver lista de reviews de un plato");
+            System.out.println("8. Ver menu de un restaurante");
+            System.out.println("9. Crear review para restaurante");
+            System.out.println("10. Crear review para plato");
+            System.out.println("11. Ver lista de reviews de un restaurante");
+            System.out.println("12. Ver lista de reviews de un plato");
             System.out.println("0. Salir");
 
             option = scanner.nextInt();

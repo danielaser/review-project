@@ -29,6 +29,15 @@ public class Menu {
         }
     }
 
+    public Plate getPlateByName(String plateName) {
+        for (Plate plate : plates) {
+            if (plate.getPlateName().equals(plateName)) {
+                return plate;
+            }
+        }
+        return null;
+    }
+
     public Set<Plate> getPlates() {
         return plates;
     }

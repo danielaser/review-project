@@ -5,7 +5,9 @@ import org.example.models.Plate;
 import org.example.models.Restaurant;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MenuRepository {
 
@@ -33,8 +35,21 @@ public class MenuRepository {
 
     public void deletePlateFromMenu(Restaurant restaurant, String plateName) {
         Menu menu = menus.get(restaurant);
-        if (menu != null) {
-            menu.deletePlate(plateName);
+        if (menu != null) menu.deletePlate(plateName);
+    }
+
+    public boolean editPlateInMenu(String restaurantName, String plateName, String newPlateName, Double newPrice) {
+        Plate plate = menus.getOrDefault(restaurantName, new Menu()).getPlateByName(plateName);
+        if (plate != null) {
+            plate.setPlateName(newPlateName);
+            plate.setPrice(newPrice);
+            return true;
         }
+        return false;
+    }
+
+    public Set<Plate> getPlatesByRestaurantName(String restaurantName) {
+        Menu menu = menus.get(restaurantName);
+        return menu != null ? menu.getPlates() : new HashSet<>();
     }
 }

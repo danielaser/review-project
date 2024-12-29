@@ -8,9 +8,9 @@ import org.example.controllers.MenuController;
 import org.example.controllers.RestaurantController;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+//    public String getGreeting() {
+//        return "Hello World!";
+//    }
 
     public static void main(String[] args) {
 
@@ -23,6 +23,9 @@ public class App {
         menu.addCommand(3, new DeleteRestaurantCommand(restaurantController));
         menu.addCommand(4, new GetRestaurantsCommand(restaurantController));
         menu.addCommand(5, new AddPlateCommand(menuController));
+        menu.addCommand(6, new EditMenuCommand(menuController));
+        menu.addCommand(7, new DeletePlateCommand(menuController));
+        menu.addCommand(8, new GetMenuCommand(menuController));
 
         menu.showMenu();
     }

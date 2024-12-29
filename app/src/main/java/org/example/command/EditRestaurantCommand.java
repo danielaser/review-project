@@ -38,6 +38,5 @@ public class EditRestaurantCommand implements ICommand{
         String newCity = scanner.nextLine();
 
         restaurantController.editRestaurant(currentName, newName, newAddress, newCity);
-        System.out.println("Restaurante eliminado.");
     }
 }
