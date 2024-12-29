@@ -1,10 +1,17 @@
 package org.example.factory;
 
+import org.example.models.Plate;
+import org.example.models.Restaurant;
 import org.example.models.Review;
 
 public class ReviewFactory {
 
-    public static Review addReview(Double rating, String comment) {
-        return new Review(rating, comment);
+    public static Review createReview(Object target, Double rating, String comment) {
+        if (target instanceof Restaurant) {
+            return new Review("restaurant", rating, comment);
+        } else if (target instanceof Plate) {
+            return new Review("plate", rating, comment);
+        }
+        throw new IllegalArgumentException("Tipo de objetivo desconocido");
     }
 }

@@ -1,31 +1,37 @@
 package org.example.services;
 
+import org.example.factory.ReviewFactory;
 import org.example.models.Plate;
 import org.example.models.Restaurant;
 import org.example.models.Review;
 import org.example.repositories.RestaurantRepository;
+import org.example.repositories.ReviewRepository;
 
 public class ReviewService {
 
-    private RestaurantRepository restaurantRepository;
+    private final ReviewRepository reviewRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public ReviewService(RestaurantRepository restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
+    public ReviewService() {
+        this.reviewRepository = ReviewRepository.getInstance();
+        this.restaurantRepository = RestaurantRepository.getInstance();
     }
 
-    public void addReviewRestaurant(String restaurantName, Review review) {
+    public void addReview(String restaurantName, Double rating, String comment) {
         Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
         if (restaurant != null) {
-            restaurant.addReview(review);
+            Review review = ReviewFactory.createReview(restaurant, rating, comment);
+            reviewRepository.addReview(review);
+        }else {
+            System.out.println("Restaurante no encontrado.");
         }
     }
 
-    public void addReviewPlate(String restaurantName, Plate plate, Review review) {
-        Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
-        if (restaurant != null) {
-            if (restaurant.getMenu().getPlates().contains(plate)) {
-                plate.addReview(review);
-            }
-        }
+    public void deleteReview(Review review) {
+        reviewRepository.deleteReview(review);
+    }
+
+    public double calculateAverageRating(String targetType) {
+        return reviewRepository.calculateAverageRating(targetType);
     }
 }

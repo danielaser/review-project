@@ -6,16 +6,15 @@ package org.example;
 import org.example.command.*;
 import org.example.controllers.MenuController;
 import org.example.controllers.RestaurantController;
+import org.example.controllers.ReviewController;
 
 public class App {
-//    public String getGreeting() {
-//        return "Hello World!";
-//    }
 
     public static void main(String[] args) {
 
         RestaurantController restaurantController = new RestaurantController();
-         MenuController menuController = new MenuController();
+        MenuController menuController = new MenuController();
+        ReviewController reviewController = new ReviewController();
 
         UserMenu menu = new UserMenu();
         menu.addCommand(1, new AddRestaurantCommand(restaurantController));
@@ -26,6 +25,7 @@ public class App {
         menu.addCommand(6, new EditMenuCommand(menuController));
         menu.addCommand(7, new DeletePlateCommand(menuController));
         menu.addCommand(8, new GetMenuCommand(menuController));
+        menu.addCommand(9, new AddRestaurantReviewCommand(reviewController));
 
         menu.showMenu();
     }

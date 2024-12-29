@@ -1,18 +1,15 @@
 package org.example.repositories;
 
-import org.example.models.Restaurant;
 import org.example.models.Review;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
 
 public class ReviewRepository {
 
     private static ReviewRepository instance;
-    private Map<String, Review> reviews;
+    private LinkedList<Review> reviews;
 
     private ReviewRepository() {
-        reviews = new HashMap<>();
+        reviews = new LinkedList<>();
     }
 
     public static synchronized ReviewRepository getInstance() {
@@ -23,18 +20,26 @@ public class ReviewRepository {
     }
 
     public void addReview(Review review) {
-
+        reviews.add(review);
     }
 
-    public void deleteReview() {
-
+    public void deleteReview(Review review) {
+        reviews.remove(review);
     }
-//
-//    public Review getReview() {
-//       return ;
-//    }
 
-    public Map<String, Review> getReviews() {
+    public LinkedList<Review> getReviews() {
         return reviews;
+    }
+
+    public double calculateAverageRating(String targetType) {
+        double totalRating = 0;
+        int count = 0;
+        for (Review review : reviews) {
+            if (review.getTargetType().equals(targetType)) {
+                totalRating += review.getRating();
+                count++;
+            }
+        }
+        return count > 0 ? totalRating / count : 0;
     }
 }

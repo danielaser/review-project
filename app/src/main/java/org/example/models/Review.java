@@ -1,18 +1,19 @@
 package org.example.models;
 
 public class Review {
+    private String targetType;
     private Double rating;
     private String comment;
 
-    public Review(Double rating, String comment) {
+    public Review(String targetType, Double rating, String comment) {
+        this.targetType = targetType;
         this.rating = rating;
         this.comment = comment;
     }
 
-    public Review() {
-    }
+    public Review() {}
 
-    //getters and setters
+    // Getters and setters
     public Double getRating() {
         return rating;
     }
@@ -27,5 +28,13 @@ public class Review {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(String targetType) {
+        this.targetType = targetType;
     }
 }
