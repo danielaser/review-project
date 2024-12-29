@@ -1,17 +1,18 @@
 package org.example.models;
 
-import org.example.observer.Observable;
+import org.example.observer.IObservable;
+import org.example.observer.IObserver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
-public class Restaurant extends Observable {
+public class Restaurant implements IObservable {
     private String name;
     private String address;
     private String city;
     private Menu menu;
     private List<Review> reviews = new ArrayList<>();
+    private List<IObserver> observers = new ArrayList<>();
 
     public Restaurant(String name, String address, String city) {
         this.name = name;
@@ -21,26 +22,42 @@ public class Restaurant extends Observable {
     }
 
     public Restaurant() {
+        this.menu = new Menu();
     }
 
     public Restaurant(String name) {
+        this.name = name;
+        this.menu = new Menu();
     }
-
 
     public void addReview(Review review) {
         reviews.add(review);
-        notifyObservers("Nueva review añadida al restaurante: " + name);
+//        notifyObservers("Nueva review añadida al restaurante: ");
         calculateRatingAverage();
     }
 
     private void calculateRatingAverage() {
         double average = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
-        notifyObservers("La calificación promedio del restaurante '" + name + "' es ahora: " + average);
+        notifyObservers("La calificación promedio del restaurante es ahora: " + average);
     }
 
-    public Menu getMenu() {
-        return menu;
+    @Override
+    public void addObserver(IObserver observer) {
+        observers.add(observer);
     }
+
+    @Override
+    public void removeObserver(IObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(IObserver message) {
+        for (IObserver observer : observers) {
+            observer.update(message.toString());
+        }
+    }
+
 
     // getters and setters
     public String getRestaurantName() {
@@ -67,6 +84,10 @@ public class Restaurant extends Observable {
         this.city = city;
     }
 
+    public Menu getMenu() {
+        return menu;
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }
@@ -74,4 +95,6 @@ public class Restaurant extends Observable {
     public void setRestaurantReviews(List<Review> restaurantReviews) {
         this.reviews = reviews;
     }
+
+
 }

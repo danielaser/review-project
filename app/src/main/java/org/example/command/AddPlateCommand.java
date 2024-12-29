@@ -1,19 +1,29 @@
 package org.example.command;
 
-import org.example.controllers.PlateController;
+import org.example.controllers.MenuController;
+import org.example.controllers.RestaurantController;
 import org.example.models.Plate;
 
-public class AddPlateCommand implements ICommand{
-    private PlateController plateController;
+import java.util.Scanner;
 
-    public AddPlateCommand(PlateController plateController) {
-        this.plateController = plateController;
+public class AddPlateCommand implements ICommand{
+
+    private MenuController menuController;
+
+    public AddPlateCommand(MenuController menuController) {
+        this.menuController = menuController;
     }
 
     @Override
     public void execute() {
-        Plate plate = new Plate("Plato Especial", 10.5);
-        plateController.addPlateToRestaurant("Nuevo Restaurante", plate);
-        System.out.println("Plato agregado.");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del restaurante: ");
+        String restaurantName = scanner.nextLine();
+        System.out.print("Ingrese el nombre del plato: ");
+        String plateName = scanner.nextLine();
+        System.out.print("Ingrese el valor: ");
+        Double price = scanner.nextDouble();
+
+        menuController.addPlateToRestaurant(restaurantName, plateName, price);
     }
 }

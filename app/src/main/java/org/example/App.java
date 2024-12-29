@@ -3,15 +3,12 @@
  */
 package org.example;
 
-import org.example.command.AddPlateCommand;
 import org.example.command.AddRestaurantCommand;
+import org.example.command.AddPlateCommand;
 import org.example.command.DeleteRestaurantCommand;
 import org.example.command.UserMenu;
-import org.example.controllers.PlateController;
+import org.example.controllers.MenuController;
 import org.example.controllers.RestaurantController;
-import org.example.repositories.RestaurantRepository;
-import org.example.services.PlateService;
-import org.example.services.RestaurantService;
 
 public class App {
     public String getGreeting() {
@@ -19,18 +16,14 @@ public class App {
     }
 
     public static void main(String[] args) {
-        RestaurantRepository restaurantRepository = RestaurantRepository.getInstance();
 
-        RestaurantService restaurantService = new RestaurantService(restaurantRepository);
-        PlateService plateService = new PlateService(restaurantRepository);
-
-        RestaurantController restaurantController = new RestaurantController(restaurantService);
-        PlateController plateController = new PlateController(plateService);
+        RestaurantController restaurantController = new RestaurantController();
+         MenuController menuController = new MenuController();
 
         UserMenu menu = new UserMenu();
         menu.addCommand(1, new AddRestaurantCommand(restaurantController));
         menu.addCommand(3, new DeleteRestaurantCommand(restaurantController));
-        menu.addCommand(4, new AddPlateCommand(plateController));
+        menu.addCommand(4, new AddPlateCommand(menuController));
 
         menu.showMenu();
     }

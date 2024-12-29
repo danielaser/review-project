@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Menu {
+    private Restaurant restaurant;
     private Set<Plate> plates;
 
     public Menu() {
@@ -22,4 +23,11 @@ public class Menu {
         return plates;
     }
 
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }

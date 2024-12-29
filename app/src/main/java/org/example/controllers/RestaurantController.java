@@ -1,24 +1,18 @@
 package org.example.controllers;
 
-import org.example.models.Restaurant;
-import org.example.observer.EntityObserver;
-import org.example.observer.IObserver;
 import org.example.services.RestaurantService;
-
-import java.util.Observer;
 
 public class RestaurantController {
 
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
-    public RestaurantController(RestaurantService restaurantService) {
-        this.restaurantService = restaurantService;
+    public RestaurantController() {
+        this.restaurantService = new RestaurantService();
     }
 
     public void addRestaurant(String name, String address, String city) {
-        Restaurant restaurant = new Restaurant(name, address, city);
-        restaurant.addObserver(new EntityObserver("Restaurante"));
-        restaurantService.addRestaurant(restaurant);
+        restaurantService.addRestaurant(name, address, city);
+        System.out.println("El restaurante se ha agregado exitosamente.");
     }
 
     public void deleteRestaurant(String name) {
