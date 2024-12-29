@@ -19,7 +19,12 @@ public class RestaurantService {
     public void addRestaurant(String name, String address, String city) {
         Restaurant restaurant = new Restaurant(name, address, city);
         restaurantRepository.addRestaurant(restaurant);
-        menuRepository.addMenu(restaurant.getMenu());
+        if (restaurant.getMenu() == null) {
+            System.out.println("Error al crear el menú del restaurante");
+        } else {
+            menuRepository.addMenu(restaurant.getMenu());
+            System.out.println("Menú asociado al restaurante " + name);
+        }
     }
 
     public void deleteRestaurant(String name) {

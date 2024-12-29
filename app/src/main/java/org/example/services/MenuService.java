@@ -20,12 +20,22 @@ public class MenuService {
     public void addRestaurantPlate(String restaurantName, String plateName, Double price) {
         Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
         Plate plate = new Plate(plateName, price);
-        if (restaurant == null){
+
+        if (restaurant == null) {
+            System.out.println("Restaurante no encontrado. Creando nuevo restaurante...");
             restaurant = new Restaurant(restaurantName);
             restaurantRepository.addRestaurant(restaurant);
-            menuRepository.addMenu(restaurant.getMenu());
+
+            Menu menu = new Menu(restaurant);
+            menuRepository.addMenu(menu);
         }
-        restaurant.getMenu().addPlate(plate);
+
+        if (restaurant.getMenu() != null) {
+            restaurant.getMenu().addPlate(plate);
+            System.out.println("Plato " + plateName + " agregado al menu de " + restaurantName);
+        } else {
+            System.out.println("Error: El restaurante no tiene un menu asociado.");
+        }
     }
 
     public void deleteRestaurantPlate(String restaurantName, String plateName) {
@@ -47,13 +57,11 @@ public class MenuService {
 
     public void viewPlatesInRestaurant(String restaurantName) {
         Set<Plate> plates = menuRepository.getPlatesByRestaurantName(restaurantName);
-        if (plates.isEmpty()) {
+        if (plates == null || plates.isEmpty()) {
             System.out.println("No hay platos en el menú del restaurante " + restaurantName);
         } else {
-            System.out.println("Platos en el menu de " + restaurantName + ":");
-            for (Plate plate : plates) {
-                System.out.println(plate.getPlateName() + " - $" + plate.getPrice());
-            }
+            System.out.println("Platos en el menú de " + restaurantName + ":");
+            plates.forEach(plate -> System.out.println(plate.getPlateName() + " - $" + plate.getPrice()));
         }
     }
 }

@@ -29,6 +29,17 @@ public class Menu {
         }
     }
 
+    public boolean editPlate(String plateName, String newPlateName, Double newPrice) {
+        for (Plate plate : plates) {
+            if (plate.getPlateName().equals(plateName)) {
+                plate.setPlateName(newPlateName);
+                plate.setPrice(newPrice);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Plate getPlateByName(String plateName) {
         for (Plate plate : plates) {
             if (plate.getPlateName().equals(plateName)) {

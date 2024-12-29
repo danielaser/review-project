@@ -26,7 +26,13 @@ public class MenuRepository {
     }
 
     public void addMenu(Menu menu) {
-        menus.put(menu.getRestaurant().getRestaurantName(), menu);
+        String restaurantName = menu.getRestaurant().getRestaurantName();
+        if (!menus.containsKey(restaurantName)) {
+            menus.put(restaurantName, menu);
+            System.out.println("Menú agregado para el restaurante: " + restaurantName);
+        } else {
+            System.out.println("Ya existe un menú para el restaurante: " + restaurantName);
+        }
     }
 
     public Menu getMenu(String name) {
@@ -34,22 +40,37 @@ public class MenuRepository {
     }
 
     public void deletePlateFromMenu(Restaurant restaurant, String plateName) {
-        Menu menu = menus.get(restaurant);
-        if (menu != null) menu.deletePlate(plateName);
+        Menu menu = menus.get(restaurant.getRestaurantName());
+        if (menu != null) {
+            menu.deletePlate(plateName);
+            System.out.println("Plato eliminado del menú de " + restaurant.getRestaurantName());
+        } else {
+            System.out.println("Menú no encontrado para el restaurante: " + restaurant.getRestaurantName());
+        }
     }
 
     public boolean editPlateInMenu(String restaurantName, String plateName, String newPlateName, Double newPrice) {
-        Plate plate = menus.getOrDefault(restaurantName, new Menu()).getPlateByName(plateName);
-        if (plate != null) {
-            plate.setPlateName(newPlateName);
-            plate.setPrice(newPrice);
-            return true;
+        Menu menu = menus.get(restaurantName);
+        if (menu != null) {
+            boolean success = menu.editPlate(plateName, newPlateName, newPrice);
+            if (success) {
+                System.out.println("Plato actualizado: " + plateName + " a " + newPlateName);
+            } else {
+                System.out.println("Plato no encontrado en el menú de " + restaurantName);
+            }
+            return success;
         }
+        System.out.println("Menú no encontrado para el restaurante: " + restaurantName);
         return false;
     }
 
     public Set<Plate> getPlatesByRestaurantName(String restaurantName) {
         Menu menu = menus.get(restaurantName);
-        return menu != null ? menu.getPlates() : new HashSet<>();
+        if (menu != null) {
+            return menu.getPlates();
+        } else {
+            System.out.println("No hay menú para el restaurante: " + restaurantName);
+            return new HashSet<>();
+        }
     }
 }

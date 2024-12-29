@@ -7,10 +7,8 @@ import org.example.models.Review;
 public class ReviewFactory {
 
     public static Review createReview(Object target, Double rating, String comment) {
-        if (target instanceof Restaurant) {
-            return new Review("restaurant", rating, comment);
-        } else if (target instanceof Plate) {
-            return new Review("plate", rating, comment);
+        if (target instanceof Restaurant || target instanceof Plate) {
+            return new Review(target, rating, comment); // Pasamos el objeto real
         }
         throw new IllegalArgumentException("Tipo de objetivo desconocido");
     }

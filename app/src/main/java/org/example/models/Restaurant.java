@@ -11,7 +11,6 @@ public class Restaurant implements IObservable {
     private String address;
     private String city;
     private Menu menu;
-    private List<Review> reviews = new ArrayList<>();
     private List<IObserver> observers = new ArrayList<>();
 
     public Restaurant(String name, String address, String city) {
@@ -76,14 +75,5 @@ public class Restaurant implements IObservable {
     public Menu getMenu() {
         return menu;
     }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setRestaurantReviews(List<Review> restaurantReviews) {
-        this.reviews = reviews;
-    }
-
 
 }

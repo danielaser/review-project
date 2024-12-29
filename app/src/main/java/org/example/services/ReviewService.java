@@ -24,7 +24,8 @@ public class ReviewService {
         if (restaurant != null) {
             Review review = ReviewFactory.createReview(restaurant, rating, comment);
             reviewRepository.addReview(review);
-        }else {
+            System.out.println("Review agregada al restaurante: " + restaurantName);
+        } else {
             System.out.println("Restaurante no encontrado.");
         }
     }

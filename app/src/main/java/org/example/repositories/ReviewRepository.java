@@ -26,7 +26,7 @@ public class ReviewRepository {
     public LinkedList<Review> getReviewsByTarget(Object target) {
         LinkedList<Review> filteredReviews = new LinkedList<>();
         for (Review review : reviews) {
-            if (review.getTargetType().equals(target)) {
+            if (review.getTarget().equals(target)) {
                 filteredReviews.add(review);
             }
         }
@@ -37,7 +37,7 @@ public class ReviewRepository {
         double totalRating = 0;
         int count = 0;
         for (Review review : reviews) {
-            if (review.getTargetType().equals(target)) {
+            if (review.getTarget().equals(target)) {
                 totalRating += review.getRating();
                 count++;
             }

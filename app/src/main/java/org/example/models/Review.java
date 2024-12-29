@@ -1,12 +1,12 @@
 package org.example.models;
 
 public class Review {
-    private String targetType;
+    private Object target;
     private Double rating;
     private String comment;
 
-    public Review(String targetType, Double rating, String comment) {
-        this.targetType = targetType;
+    public Review(Object target, Double rating, String comment) {
+        this.target = target;
         this.rating = rating;
         this.comment = comment;
     }
@@ -30,11 +30,7 @@ public class Review {
         this.comment = comment;
     }
 
-    public String getTargetType() {
-        return targetType;
-    }
-
-    public void setTargetType(String targetType) {
-        this.targetType = targetType;
+    public Object getTarget() {
+        return target;
     }
 }
