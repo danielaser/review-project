@@ -1,6 +1,7 @@
 package org.example.command.restaurant;
 
 import org.example.command.ICommand;
+import org.example.command.utils.IHandler;
 import org.example.controllers.RestaurantController;
 
 import java.util.Scanner;
@@ -8,22 +9,24 @@ import java.util.Scanner;
 public class AddRestaurantCommand implements ICommand {
 
     private RestaurantController restaurantController;
+    private final IHandler handler;
 
-    public AddRestaurantCommand(RestaurantController restaurantController) {
+    public AddRestaurantCommand(RestaurantController restaurantController, IHandler handler) {
         this.restaurantController = restaurantController;
+        this.handler = handler;
     }
 
     @Override
     public void execute() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del restaurante: ");
-        String name = scanner.nextLine();
 
-        System.out.print("Ingrese la direccion: ");
-        String address = scanner.nextLine();
+        handler.writeLine("Ingrese el nombre del restaurante: ");
+        String name = handler.readLine();
 
-        System.out.print("Ingrese la ciudad: ");
-        String city = scanner.nextLine();
+        handler.writeLine("Ingrese la direccion: ");
+        String address = handler.readLine();
+
+        handler.writeLine("Ingrese la ciudad: ");
+        String city = handler.readLine();
 
         restaurantController.addRestaurant(name, address, city);
     }

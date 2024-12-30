@@ -13,6 +13,8 @@ import org.example.command.review.AddPlateReviewCommand;
 import org.example.command.review.AddRestaurantReviewCommand;
 import org.example.command.review.GetReviewsPlate;
 import org.example.command.review.GetReviewsRestaurant;
+import org.example.command.utils.ConsoleHandler;
+import org.example.command.utils.IHandler;
 import org.example.controllers.MenuController;
 import org.example.controllers.RestaurantController;
 import org.example.controllers.ReviewController;
@@ -24,9 +26,10 @@ public class App {
         RestaurantController restaurantController = new RestaurantController();
         MenuController menuController = new MenuController();
         ReviewController reviewController = new ReviewController();
+        IHandler handler = new ConsoleHandler();
 
-        UserMenu menu = new UserMenu();
-        menu.addCommand(1, new AddRestaurantCommand(restaurantController));
+        UserMenu menu = new UserMenu(handler);
+        menu.addCommand(1, new AddRestaurantCommand(restaurantController, handler));
         menu.addCommand(2, new EditRestaurantCommand(restaurantController));
         menu.addCommand(3, new DeleteRestaurantCommand(restaurantController));
         menu.addCommand(4, new GetRestaurantsCommand(restaurantController));
