@@ -93,4 +93,22 @@ class RestaurantTest {
     void testMenuInitialization() {
         assertNotNull(restaurant.getMenu());
     }
+
+    @Test
+    @DisplayName("Constructor sin parámetros: El menú debe ser inicializado correctamente")
+    void testRestaurantConstructorWithoutName() {
+        restaurant = new Restaurant(); // Usamos el constructor sin parámetros
+
+        assertNotNull(restaurant.getMenu(), "El menu no debe ser nulo");
+    }
+
+    @Test
+    @DisplayName("Constructor con nombre: El nombre debe ser asignado correctamente y el menú debe ser inicializado")
+    void testRestaurantConstructorWithName() {
+        String expectedName = "Test Restaurant";
+        restaurant = new Restaurant(expectedName); // Usamos el constructor con nombre
+
+        assertEquals(expectedName, restaurant.getRestaurantName(), "El nombre del restaurante no es correcto");
+        assertNotNull(restaurant.getMenu(), "El menú no debe ser nulo");
+    }
 }

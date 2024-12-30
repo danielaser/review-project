@@ -10,6 +10,7 @@ import org.mockito.*;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class RestaurantControllerTest {
@@ -95,5 +96,14 @@ class RestaurantControllerTest {
         assert restaurants.size() == 2;
         assert restaurants.containsKey(name1);
         assert restaurants.containsKey(name2);
+    }
+
+    @Test
+    @DisplayName("Test constructor de RestaurantController con RestaurantService")
+    void testRestaurantControllerConstructor() {
+        RestaurantController restaurantController = new RestaurantController();
+
+        assertNotNull(restaurantController);
+
     }
 }

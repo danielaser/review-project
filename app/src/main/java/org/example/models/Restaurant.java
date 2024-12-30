@@ -17,17 +17,20 @@ public class Restaurant implements IObservable {
         this.name = name;
         this.address = address;
         this.city = city;
-        this.menu = new Menu(this);
+        this.menu = new Menu();
         this.observers = new ArrayList<>();
     }
 
     public Restaurant() {
-        this.menu = new Menu(this);
+        this.menu = new Menu();
     }
 
     public Restaurant(String name) {
         this.name = name;
-        this.menu = new Menu(this);
+        this.menu = new Menu();
+    }
+
+    public Restaurant(String restauranteEjemplo, Menu menu) {
     }
 
     @Override
@@ -81,4 +84,6 @@ public class Restaurant implements IObservable {
         return menu;
     }
 
+    public void setObservers(ArrayList<Object> objects) {
+    }
 }

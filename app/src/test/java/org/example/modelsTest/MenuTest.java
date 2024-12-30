@@ -20,7 +20,7 @@ class MenuTest {
     @BeforeEach
     void setUp() {
         mockRestaurant = mock(Restaurant.class);
-        menu = new Menu(mockRestaurant);
+        menu = new Menu();
     }
 
     @Test

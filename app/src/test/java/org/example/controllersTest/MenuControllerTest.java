@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class MenuControllerTest {
@@ -68,5 +69,14 @@ class MenuControllerTest {
         menuController.getMenuInRestaurant(restaurantName);
 
         verify(menuService, times(1)).viewPlatesInRestaurant(restaurantName);
+    }
+
+    @Test
+    @DisplayName("Test constructor de MenuController con MenuService")
+    void testMenuControllerConstructor() {
+        MenuController menuController = new MenuController();
+
+        assertNotNull(menuController);
+
     }
 }

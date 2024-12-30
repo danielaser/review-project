@@ -9,6 +9,7 @@ import org.mockito.*;
 
 import java.util.LinkedList;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class ReviewControllerTest {
@@ -97,5 +98,14 @@ class ReviewControllerTest {
         reviewController.getPlateReviews(restaurantName, plateName);
 
         verify(reviewService, times(1)).getPlateReviews(restaurantName, plateName);
+    }
+
+    @Test
+    @DisplayName("Test constructor de ReviewController con ReviewService")
+    void testReviewControllerConstructor() {
+        ReviewController reviewController = new ReviewController();
+
+        assertNotNull(reviewController);
+
     }
 }
