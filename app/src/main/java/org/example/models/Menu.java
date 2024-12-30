@@ -12,9 +12,6 @@ public class Menu {
         this.plates = new HashSet<>();
     }
 
-    public Menu() {
-    }
-
     public void addPlate(Plate plate) {
         plates.add(plate);
     }

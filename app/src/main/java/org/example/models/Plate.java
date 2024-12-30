@@ -17,9 +17,6 @@ public class Plate implements IObservable {
         this.observers = new ArrayList<>();
     }
 
-    public Plate() {
-    }
-
     @Override
     public void addObserver(IObserver observer) {
         observers.add(observer);
