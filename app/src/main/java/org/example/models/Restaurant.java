@@ -11,13 +11,14 @@ public class Restaurant implements IObservable {
     private String address;
     private String city;
     private Menu menu;
-    private List<IObserver> observers = new ArrayList<>();
+    private List<IObserver> observers;
 
     public Restaurant(String name, String address, String city) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.menu = new Menu(this);
+        this.observers = new ArrayList<>();
     }
 
     public Restaurant() {
@@ -28,24 +29,27 @@ public class Restaurant implements IObservable {
         this.name = name;
         this.menu = new Menu(this);
     }
-
     @Override
     public void addObserver(IObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(IObserver observer) {
-        observers.remove(observer);
+    public void removeAllObservers() {
+        observers.clear();
+        System.out.println("Todos los observadores han sido removidos.");
     }
 
     @Override
-    public void notifyObservers(IObserver message) {
+    public void notifyObservers(String message) {
         for (IObserver observer : observers) {
-            observer.update(message.toString());
+            observer.update(message);
         }
     }
 
+    public void notifyAverageRatingChange(double newAverageRating) {
+        notifyObservers("Calificacion promedio del restaurante " + name + " actualizada a: " + newAverageRating);
+    }
 
     // getters and setters
     public String getRestaurantName() {

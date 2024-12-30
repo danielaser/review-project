@@ -1,6 +1,7 @@
 package org.example.services;
 
 import org.example.models.Restaurant;
+import org.example.observer.TheObserver;
 import org.example.repositories.MenuRepository;
 import org.example.repositories.RestaurantRepository;
 
@@ -19,6 +20,7 @@ public class RestaurantService {
     public void addRestaurant(String name, String address, String city) {
         Restaurant restaurant = new Restaurant(name, address, city);
         restaurantRepository.addRestaurant(restaurant);
+        restaurant.addObserver(new TheObserver());
         if (restaurant.getMenu() == null) {
             System.out.println("Error al crear el menú del restaurante");
         } else {
@@ -28,6 +30,8 @@ public class RestaurantService {
     }
 
     public void deleteRestaurant(String name) {
+        Restaurant restaurant = restaurantRepository.getRestaurant(name);
+        restaurant.removeAllObservers();
         restaurantRepository.deleteRestaurant(name);
     }
 

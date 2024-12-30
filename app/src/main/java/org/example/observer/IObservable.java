@@ -2,6 +2,6 @@ package org.example.observer;
 
 public interface IObservable {
     void addObserver(IObserver observer);
-    void removeObserver(IObserver observer);
-    void notifyObservers(IObserver message);
+    void removeAllObservers();
+    void notifyObservers(String message);
 }

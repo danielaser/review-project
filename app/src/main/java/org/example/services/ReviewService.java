@@ -4,6 +4,7 @@ import org.example.factory.ReviewFactory;
 import org.example.models.Plate;
 import org.example.models.Restaurant;
 import org.example.models.Review;
+import org.example.observer.TheObserver;
 import org.example.repositories.RestaurantRepository;
 import org.example.repositories.ReviewRepository;
 
@@ -25,6 +26,7 @@ public class ReviewService {
             Review review = ReviewFactory.createReview(restaurant, rating, comment);
             reviewRepository.addReview(review);
             System.out.println("Review agregada al restaurante: " + restaurantName);
+            restaurant.notifyAverageRatingChange(reviewRepository.calculateAverageRating(restaurant));
         } else {
             System.out.println("Restaurante no encontrado.");
         }
@@ -38,6 +40,7 @@ public class ReviewService {
                 Review review = ReviewFactory.createReview(plate, rating, comment);
                 reviewRepository.addReview(review);
                 System.out.println("Review agregada al plato: " + plateName);
+                plate.notifyAverageRatingChange(reviewRepository.calculateAverageRating(plate));
             } else {
                 System.out.println("Plato no encontrado en el restaurante: " + restaurantName);
             }
@@ -58,10 +61,10 @@ public class ReviewService {
 
         System.out.println("Reviews del restaurante: " + restaurantName);
         reviews.forEach(review ->
-                System.out.println("- Calificación: " + review.getRating() + ", Comentario: " + review.getComment())
+                System.out.println("- Calificacion: " + review.getRating() + ", Comentario: " + review.getComment())
         );
         System.out.println(reviews.isEmpty() ? "No hay reviews para este restaurante." :
-                String.format("Calificación promedio del restaurante: %.2f%n", averageRating));
+                String.format("Calificacion promedio del restaurante: %.2f%n", averageRating));
 
         return reviews;
     }
@@ -84,10 +87,10 @@ public class ReviewService {
 
         System.out.println("Reviews del plato: " + plateName + " en el restaurante: " + restaurantName);
         reviews.forEach(review ->
-                System.out.println("- Calificación: " + review.getRating() + ", Comentario: " + review.getComment())
+                System.out.println("- Calificacion: " + review.getRating() + ", Comentario: " + review.getComment())
         );
         System.out.println(reviews.isEmpty() ? "No hay reviews para este plato." :
-                String.format("Calificación promedio del plato: %.2f%n", averageRating));
+                String.format("Calificacion promedio del plato: %.2f%n", averageRating));
 
         return reviews;
     }

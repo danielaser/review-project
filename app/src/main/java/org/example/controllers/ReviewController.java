@@ -26,11 +26,6 @@ public class ReviewController {
         LinkedList<Review> reviews = reviewService.getRestaurantReviews(restaurantName);
         if (reviews.isEmpty()) {
             System.out.println("No hay reviews para el restaurante: " + restaurantName);
-            return;
-        }
-        System.out.println("Reviews del restaurante: " + restaurantName);
-        for (Review review : reviews) {
-            System.out.println("- Calificación: " + review.getRating() + ", Comentario: " + review.getComment());
         }
     }
 
@@ -38,11 +33,6 @@ public class ReviewController {
         LinkedList<Review> reviews = reviewService.getPlateReviews(restaurantName, plateName);
         if (reviews.isEmpty()) {
             System.out.println("No hay reviews para el plato: " + plateName + " en el restaurante: " + restaurantName);
-            return;
-        }
-        System.out.println("Reviews del plato: " + plateName + " en el restaurante: " + restaurantName);
-        for (Review review : reviews) {
-            System.out.println("- Calificación: " + review.getRating() + ", Comentario: " + review.getComment());
         }
     }
 }
