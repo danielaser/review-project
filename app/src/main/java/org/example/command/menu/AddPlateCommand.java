@@ -1,27 +1,26 @@
 package org.example.command.menu;
 
 import org.example.command.ICommand;
+import org.example.command.utils.IHandler;
 import org.example.controllers.MenuController;
 
-import java.util.Scanner;
-
 public class AddPlateCommand implements ICommand {
-
     private MenuController menuController;
+    private final IHandler handler;
 
-    public AddPlateCommand(MenuController menuController) {
+    public AddPlateCommand(MenuController menuController, IHandler handler) {
         this.menuController = menuController;
+        this.handler = handler;
     }
 
     @Override
     public void execute() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del restaurante: ");
-        String restaurantName = scanner.nextLine();
-        System.out.print("Ingrese el nombre del plato: ");
-        String plateName = scanner.nextLine();
-        System.out.print("Ingrese el valor: ");
-        Double price = scanner.nextDouble();
+        handler.writeLine("Ingrese el nombre del restaurante: ");
+        String restaurantName = handler.readLine();
+        handler.writeLine("Ingrese el nombre del plato: ");
+        String plateName = handler.readLine();
+        handler.writeLine("Ingrese el valor: ");
+        Double price = Double.parseDouble(handler.readLine());
 
         menuController.addPlateToRestaurant(restaurantName, plateName, price);
     }

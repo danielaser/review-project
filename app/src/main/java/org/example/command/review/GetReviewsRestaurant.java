@@ -1,22 +1,22 @@
 package org.example.command.review;
 
 import org.example.command.ICommand;
+import org.example.command.utils.IHandler;
 import org.example.controllers.ReviewController;
-
-import java.util.Scanner;
 
 public class GetReviewsRestaurant implements ICommand {
     private ReviewController reviewController;
+    private final IHandler handler;
 
-    public GetReviewsRestaurant(ReviewController reviewController) {
+    public GetReviewsRestaurant(ReviewController reviewController, IHandler handler) {
         this.reviewController = reviewController;
+        this.handler = handler;
     }
 
     @Override
     public void execute() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del restaurante: ");
-        String restaurantName = scanner.nextLine();
+        handler.writeLine("Ingrese el nombre del restaurante: ");
+        String restaurantName = handler.readLine();
 
         reviewController.getRestaurantReviews(restaurantName);
     }

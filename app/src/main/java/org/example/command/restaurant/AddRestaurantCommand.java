@@ -4,10 +4,7 @@ import org.example.command.ICommand;
 import org.example.command.utils.IHandler;
 import org.example.controllers.RestaurantController;
 
-import java.util.Scanner;
-
 public class AddRestaurantCommand implements ICommand {
-
     private RestaurantController restaurantController;
     private final IHandler handler;
 

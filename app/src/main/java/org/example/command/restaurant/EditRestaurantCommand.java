@@ -1,42 +1,43 @@
 package org.example.command.restaurant;
 
 import org.example.command.ICommand;
+import org.example.command.utils.IHandler;
 import org.example.controllers.RestaurantController;
 import org.example.models.Restaurant;
 
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 public class EditRestaurantCommand implements ICommand {
     private RestaurantController restaurantController;
+    private final IHandler handler;
 
-    public EditRestaurantCommand(RestaurantController restaurantController) {
+    public EditRestaurantCommand(RestaurantController restaurantController,  IHandler handler) {
         this.restaurantController = restaurantController;
+        this.handler = handler;
     }
 
     @Override
     public void execute() {
-        Scanner scanner = new Scanner(System.in);
         Map<String, Restaurant> restaurantMap = restaurantController.getRestaurants();
         Set<String> restaurantNames = restaurantMap.keySet();
 
-        System.out.println("Lista de restaurantes:");
+        handler.writeLine("Lista de restaurantes:");
         for (String name : restaurantNames) {
-            System.out.println("- " + name);
+            handler.writeLine("- " + name);
         }
 
-        System.out.print("Ingrese el nombre del restaurante que desea editar: ");
-        String currentName = scanner.nextLine();
+        handler.writeLine("Ingrese el nombre del restaurante que desea editar: ");
+        String currentName = handler.readLine();
 
-        System.out.print("Ingrese el nuevo nombre del restaurante: ");
-        String newName = scanner.nextLine();
+        handler.writeLine("Ingrese el nuevo nombre del restaurante: ");
+        String newName = handler.readLine();
 
-        System.out.print("Ingrese la nueva direccion: ");
-        String newAddress = scanner.nextLine();
+        handler.writeLine("Ingrese la nueva direccion: ");
+        String newAddress = handler.readLine();
 
-        System.out.print("Ingrese la ciudad actualizada ");
-        String newCity = scanner.nextLine();
+        handler.writeLine("Ingrese la ciudad actualizada ");
+        String newCity = handler.readLine();
 
         restaurantController.editRestaurant(currentName, newName, newAddress, newCity);
     }

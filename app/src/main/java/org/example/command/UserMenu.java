@@ -19,8 +19,6 @@ public class UserMenu {
     }
 
     public void showMenu() {
-//        Scanner scanner = new Scanner(System.in);
-
 
         while (true) {
             handler.writeLine("\nSeleccione una opcion:");
@@ -42,12 +40,12 @@ public class UserMenu {
             try {
                 option = Integer.parseInt(handler.readLine());
             } catch (NumberFormatException e) {
-                handler.writeLine("Por favor, ingrese una opción válida.");
+                handler.writeLine("Ingrese opcion valida");
                 continue;
             }
 
             if (option == 0) {
-                handler.writeLine("¡Gracias por usar el sistema! Hasta pronto.");
+                handler.writeLine("Gracias. Vuelva pronto!");
                 break;
             }
 
