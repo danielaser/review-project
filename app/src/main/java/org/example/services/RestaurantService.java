@@ -21,11 +21,10 @@ public class RestaurantService {
         Restaurant restaurant = new Restaurant(name, address, city);
         restaurantRepository.addRestaurant(restaurant);
         restaurant.addObserver(new TheObserver());
-        if (restaurant.getMenu() == null) {
-            System.out.println("Error al crear el menú del restaurante");
-        } else {
+        if (restaurant.getMenu() == null) System.out.println("Error al crear el menú del restaurante");
+        else {
             menuRepository.addMenu(restaurant.getMenu());
-            System.out.println("Menú asociado al restaurante " + name);
+            System.out.println("Menu asociado al restaurante " + name);
         }
     }
 
@@ -42,16 +41,19 @@ public class RestaurantService {
             System.out.println("Restaurante no encontrado.");
             return false;
         }
-        restaurant.setRestaurantName(newName);
-        restaurant.setAddress(newAddress);
-        restaurant.setCity(newCity);
-
+        setNewRestaurant(newName, newAddress, newCity, restaurant);
         if (!currentName.equals(newName)) {
             restaurantRepository.deleteRestaurant(currentName);
             restaurantRepository.addRestaurant(restaurant);
         }
         System.out.println("Restaurante editado con exito.");
         return true;
+    }
+
+    private static void setNewRestaurant(String newName, String newAddress, String newCity, Restaurant restaurant) {
+        restaurant.setRestaurantName(newName);
+        restaurant.setAddress(newAddress);
+        restaurant.setCity(newCity);
     }
 
     public Map<String, Restaurant> getRestaurants(){

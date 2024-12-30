@@ -23,6 +23,15 @@ public class MenuService {
         Plate plate = new Plate(plateName, price);
         plate.addObserver(new TheObserver());
 
+        restaurant = existRestaurant(restaurantName, restaurant);
+
+        if (restaurant.getMenu() != null) {
+            restaurant.getMenu().addPlate(plate);
+            System.out.println("Plato " + plateName + " agregado al menu de " + restaurantName);
+        } else System.out.println("Error: El restaurante no tiene un menu asociado.");
+    }
+
+    private Restaurant existRestaurant(String restaurantName, Restaurant restaurant) {
         if (restaurant == null) {
             System.out.println("Restaurante no encontrado. Creando nuevo restaurante...");
             restaurant = new Restaurant(restaurantName);
@@ -30,13 +39,7 @@ public class MenuService {
             Menu menu = new Menu(restaurant);
             menuRepository.addMenu(menu);
         }
-
-        if (restaurant.getMenu() != null) {
-            restaurant.getMenu().addPlate(plate);
-            System.out.println("Plato " + plateName + " agregado al menu de " + restaurantName);
-        } else {
-            System.out.println("Error: El restaurante no tiene un menu asociado.");
-        }
+        return restaurant;
     }
 
     public void deleteRestaurantPlate(String restaurantName, String plateName) {
@@ -45,14 +48,9 @@ public class MenuService {
             Plate plate = restaurant.getMenu().getPlateByName(plateName);
             if (plate != null) {
                 plate.removeAllObservers();
-
                 menuRepository.deletePlateFromMenu(restaurant, plateName);
-            } else {
-                System.out.println("Plato no encontrado en el menu del restaurante.");
-            }
-        } else {
-            System.out.println("Restaurante no encontrado.");
-        }
+            } else System.out.println("Plato no encontrado en el menu del restaurante.");
+        } else System.out.println("Restaurante no encontrado.");
     }
 
     public boolean editRestaurantPlate(String restaurantName, String plateName, String newPlateName, Double newPrice) {

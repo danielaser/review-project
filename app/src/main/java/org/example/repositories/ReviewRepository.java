@@ -25,23 +25,18 @@ public class ReviewRepository {
 
     public LinkedList<Review> getReviewsByTarget(Object target) {
         LinkedList<Review> filteredReviews = new LinkedList<>();
-        for (Review review : reviews) {
-            if (review.getTarget().equals(target)) {
-                filteredReviews.add(review);
-            }
-        }
+        for (Review review : reviews) if (review.getTarget().equals(target)) filteredReviews.add(review);
         return filteredReviews;
     }
 
     public double calculateAverageRating(Object target) {
         double totalRating = 0;
         int count = 0;
-        for (Review review : reviews) {
+        for (Review review : reviews)
             if (review.getTarget().equals(target)) {
                 totalRating += review.getRating();
                 count++;
             }
-        }
         return count > 0 ? totalRating / count : 0;
     }
 }

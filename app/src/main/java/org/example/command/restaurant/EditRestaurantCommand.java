@@ -1,5 +1,6 @@
-package org.example.command;
+package org.example.command.restaurant;
 
+import org.example.command.ICommand;
 import org.example.controllers.RestaurantController;
 import org.example.models.Restaurant;
 
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class EditRestaurantCommand implements ICommand{
+public class EditRestaurantCommand implements ICommand {
     private RestaurantController restaurantController;
 
     public EditRestaurantCommand(RestaurantController restaurantController) {

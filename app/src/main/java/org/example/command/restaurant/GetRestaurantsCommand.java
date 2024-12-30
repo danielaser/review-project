@@ -1,11 +1,12 @@
-package org.example.command;
+package org.example.command.restaurant;
 
+import org.example.command.ICommand;
 import org.example.controllers.RestaurantController;
 import org.example.models.Restaurant;
 
 import java.util.Map;
 
-public class GetRestaurantsCommand implements ICommand{
+public class GetRestaurantsCommand implements ICommand {
 
     private RestaurantController restaurantController;
 

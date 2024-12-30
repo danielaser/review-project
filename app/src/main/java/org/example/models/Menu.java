@@ -13,7 +13,6 @@ public class Menu {
     }
 
     public Menu() {
-        this.plates = new HashSet<>();
     }
 
     public void addPlate(Plate plate) {
@@ -21,12 +20,8 @@ public class Menu {
     }
 
     public void deletePlate(String plateName) {
-        boolean removed = plates.removeIf(plate -> plate.getPlateName().equals(plateName));
-        if (removed) {
-            System.out.println("Plato " + plateName + " eliminado del menu.");
-        } else {
-            System.out.println("Plato " + plateName + " no encontrado en el menu.");
-        }
+       plates.removeIf(plate -> plate.getPlateName().equals(plateName));
+
     }
 
     public boolean editPlate(String plateName, String newPlateName, Double newPrice) {

@@ -1,13 +1,14 @@
-package org.example.command;
+package org.example.command.review;
 
+import org.example.command.ICommand;
 import org.example.controllers.ReviewController;
 
 import java.util.Scanner;
 
-public class GetReviewsRestaurant implements ICommand{
+public class GetReviewsPlate implements ICommand {
     private ReviewController reviewController;
 
-    public GetReviewsRestaurant(ReviewController reviewController) {
+    public GetReviewsPlate(ReviewController reviewController) {
         this.reviewController = reviewController;
     }
 
@@ -17,6 +18,9 @@ public class GetReviewsRestaurant implements ICommand{
         System.out.print("Ingrese el nombre del restaurante: ");
         String restaurantName = scanner.nextLine();
 
-        reviewController.getRestaurantReviews(restaurantName);
+        System.out.print("Ingrese el nombre del plato: ");
+        String plateName = scanner.nextLine();
+
+        reviewController.getPlateReviews(restaurantName, plateName);
     }
 }

@@ -39,7 +39,7 @@ public class Plate implements IObservable {
     }
 
     public void notifyAverageRatingChange(double newAverageRating) {
-        notifyObservers("Calificación promedio del plato " + plateName + " actualizada a: " + newAverageRating);
+        notifyObservers("Calificacion promedio del plato " + plateName + " actualizada a: " + newAverageRating);
     }
 
     // getters and setters

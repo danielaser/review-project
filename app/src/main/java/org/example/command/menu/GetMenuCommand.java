@@ -1,5 +1,6 @@
-package org.example.command;
+package org.example.command.menu;
 
+import org.example.command.ICommand;
 import org.example.controllers.MenuController;
 
 import java.util.Scanner;

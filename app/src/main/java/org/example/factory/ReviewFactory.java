@@ -8,8 +8,8 @@ public class ReviewFactory {
 
     public static Review createReview(Object target, Double rating, String comment) {
         if (target instanceof Restaurant || target instanceof Plate) {
-            return new Review(target, rating, comment); // Pasamos el objeto real
+            return new Review(target, rating, comment);
         }
-        throw new IllegalArgumentException("Tipo de objetivo desconocido");
+        throw new IllegalArgumentException("Tipo desconocido.");
     }
 }

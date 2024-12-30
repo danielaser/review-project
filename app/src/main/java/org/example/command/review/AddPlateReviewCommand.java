@@ -1,14 +1,14 @@
-package org.example.command;
+package org.example.command.review;
 
-import org.example.controllers.RestaurantController;
+import org.example.command.ICommand;
 import org.example.controllers.ReviewController;
 
 import java.util.Scanner;
 
-public class AddRestaurantReviewCommand implements ICommand{
+public class AddPlateReviewCommand implements ICommand {
     private ReviewController reviewController;
 
-    public AddRestaurantReviewCommand(ReviewController reviewController) {
+    public AddPlateReviewCommand(ReviewController reviewController) {
         this.reviewController = reviewController;
     }
 
@@ -17,12 +17,17 @@ public class AddRestaurantReviewCommand implements ICommand{
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre del restaurante: ");
         String restaurantName = scanner.nextLine();
+
+        System.out.print("Ingrese el nombre del plato: ");
+        String plateName = scanner.nextLine();
+
         System.out.print("Ingrese la calificacion de 1.0 a 5.0: ");
         Double rating = scanner.nextDouble();
         scanner.nextLine();
+
         System.out.print("Ingrese un comentario: ");
         String comment = scanner.nextLine();
 
-        reviewController.addReview(restaurantName, rating, comment);
+        reviewController.addPlateReview(restaurantName, plateName, rating, comment);
     }
 }

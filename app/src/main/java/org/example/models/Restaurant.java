@@ -29,6 +29,7 @@ public class Restaurant implements IObservable {
         this.name = name;
         this.menu = new Menu(this);
     }
+
     @Override
     public void addObserver(IObserver observer) {
         observers.add(observer);

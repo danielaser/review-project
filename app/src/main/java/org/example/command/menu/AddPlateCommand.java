@@ -1,12 +1,11 @@
-package org.example.command;
+package org.example.command.menu;
 
+import org.example.command.ICommand;
 import org.example.controllers.MenuController;
-import org.example.controllers.RestaurantController;
-import org.example.models.Plate;
 
 import java.util.Scanner;
 
-public class AddPlateCommand implements ICommand{
+public class AddPlateCommand implements ICommand {
 
     private MenuController menuController;
 
