@@ -8,6 +8,10 @@ import java.util.LinkedList;
 public class ReviewController {
     private final ReviewService reviewService;
 
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
+
     public ReviewController() {
         this.reviewService = new ReviewService();
     }

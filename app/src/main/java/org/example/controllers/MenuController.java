@@ -6,6 +6,10 @@ public class MenuController {
 
     private final MenuService menuService;
 
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
+    }
+
     public MenuController() {
         this.menuService = new MenuService();
     }
@@ -28,5 +32,4 @@ public class MenuController {
     public void getMenuInRestaurant(String restaurantName){
         menuService.viewPlatesInRestaurant(restaurantName);
     }
-
 }
