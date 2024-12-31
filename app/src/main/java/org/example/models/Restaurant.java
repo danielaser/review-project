@@ -30,9 +30,6 @@ public class Restaurant implements IObservable {
         this.menu = new Menu();
     }
 
-    public Restaurant(String restauranteEjemplo, Menu menu) {
-    }
-
     @Override
     public void addObserver(IObserver observer) {
         observers.add(observer);
@@ -82,8 +79,5 @@ public class Restaurant implements IObservable {
 
     public Menu getMenu() {
         return menu;
-    }
-
-    public void setObservers(ArrayList<Object> objects) {
     }
 }
