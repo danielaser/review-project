@@ -379,4 +379,23 @@ class UserMenuTest {
         verify(mockHandler, times(2)).readLine();
     }
 
+    @Test
+    @DisplayName("Caso: Ingresar opción inválida")
+    void testInvalidOption() {
+        when(mockHandler.readLine()).thenReturn("abc", "0");
+
+        menu.addCommand(0, new GetReviewsRestaurant(mockReviewController, mockHandler));
+        menu.showMenu();
+
+        InOrder inOrder = inOrder(mockHandler);
+
+        verifyMenuOptions(inOrder);
+
+        inOrder.verify(mockHandler).writeLine("Ingrese opcion valida");
+
+        inOrder.verify(mockHandler).writeLine("Gracias. Vuelva pronto!");
+        
+        verify(mockHandler, times(2)).readLine();
+    }
+
 }
