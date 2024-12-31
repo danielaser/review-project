@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +33,7 @@ class MenuRepositoryTest {
 
     @AfterEach
     void tearDown() {
-        menuRepository.reset();  // Limpiar el estado después de cada prueba
+        menuRepository.reset();
     }
 
     @Test
@@ -41,7 +43,7 @@ class MenuRepositoryTest {
         when(restaurantMock.getRestaurantName()).thenReturn("Restaurante Ejemplo");
 
         Menu menu = mock(Menu.class);
-        when(menu.getRestaurant()).thenReturn(restaurantMock); // Asegúrate de que getRestaurant() devuelve el restaurante mockeado
+        when(menu.getRestaurant()).thenReturn(restaurantMock);
 
         menuRepository.addMenu(menu);
 
@@ -113,6 +115,22 @@ class MenuRepositoryTest {
         Set<Plate> plates = menuRepository.getPlatesByRestaurantName("Restaurante Ejemplo");
         assertTrue(plates.stream().anyMatch(p -> p.getPlateName().equals("Plato Nuevo") && p.getPrice() == 25.0),
                 "El plato debería haber sido actualizado a 'Plato Nuevo' con precio 25.0.");
+    }
+
+    @Test
+    @DisplayName("Test editar un plato en un menú que no existe")
+    void testEditPlateInMenuMenuNotFound() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        boolean success = menuRepository.editPlateInMenu("Restaurante Inexistente", "Plato Inexistente", "Plato Nuevo", 25.0);
+
+        assertFalse(success, "La edición del plato no debería haber sido exitosa.");
+
+        assertTrue(outputStream.toString().contains("Menu no encontrado para el restaurante: Restaurante Inexistente"),
+                "El mensaje de error debería haber sido impreso cuando el menú no es encontrado.");
+
+        System.setOut(System.out);
     }
 
     @Test

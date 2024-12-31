@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
@@ -162,6 +164,50 @@ class MenuServiceTest {
         menuService.viewPlatesInRestaurant(restaurantName);
 
         verify(menuRepository, times(1)).getPlatesByRestaurantName(restaurantName);
+    }
+
+    @Test
+    @DisplayName("Test addRestaurantPlate: should create a new restaurant and menu if not found")
+    void testAddRestaurantPlateWhenRestaurantNotFound() {
+        String restaurantName = "Nuevo Restaurante";
+        String plateName = "Plato Nuevo";
+        Double price = 25.0;
+
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(null);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        menuService.addRestaurantPlate(restaurantName, plateName, price);
+
+        verify(restaurantRepository).addRestaurant(any(Restaurant.class));
+        verify(menuRepository).addMenu(any(Menu.class));
+
+        assertTrue(outputStream.toString().contains("Restaurante no encontrado. Creando nuevo restaurante..."),
+                "Se esperaba que se imprima el mensaje de creación del restaurante");
+
+        System.setOut(System.out);
+    }
+
+    @Test
+    @DisplayName("Test addRestaurantPlate: should print error when menu not found")
+    void testAddRestaurantPlateWhenMenuNotFound() {
+        String restaurantName = "Restaurante A";
+        String plateName = "Plato 1";
+        Double price = 12.5;
+
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(restaurant);
+        when(restaurant.getMenu()).thenReturn(null);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        menuService.addRestaurantPlate(restaurantName, plateName, price);
+
+        assertTrue(outputStream.toString().contains("Error: El restaurante no tiene un menu asociado."),
+                "Se esperaba que se imprima el mensaje de error");
+
+        System.setOut(System.out);
     }
 }
 
