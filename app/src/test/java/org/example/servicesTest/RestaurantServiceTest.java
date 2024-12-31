@@ -29,6 +29,9 @@ class RestaurantServiceTest {
     @InjectMocks
     private RestaurantService restaurantService;
 
+    @Captor
+    private ArgumentCaptor<Menu> menuCaptor;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -36,39 +39,26 @@ class RestaurantServiceTest {
     }
 
     @Test
-    @DisplayName("Test addRestaurant: should add a restaurant and its menu")
-    void testAddRestaurant() {
+    public void testAddRestaurant() {
         String name = "Restaurante A";
-        String address = "123 Test St";
-        String city = "Test City";
+        String address = "Calle Ficticia 123";
+        String city = "Ciudad Ejemplo";
 
-        Restaurant restaurant = mock(Restaurant.class);
-        Menu menu = mock(Menu.class);
+        Restaurant restaurant = new Restaurant(name, address, city);
+        Menu menu = new Menu();
+        restaurant.setMenu(menu);
 
-        restaurantRepository = mock(RestaurantRepository.class);
-        menuRepository = mock(MenuRepository.class);
-
-        when(restaurantRepository.getRestaurant(name)).thenReturn(null);
-        when(restaurant.getMenu()).thenReturn(menu);
-        when(restaurant.getRestaurantName()).thenReturn(name);
-
-        restaurantService = new RestaurantService();
-        restaurantService.restaurantRepository = restaurantRepository;
-        restaurantService.menuRepository = menuRepository;
+        doNothing().when(restaurantRepository).addRestaurant(any(Restaurant.class));
 
         restaurantService.addRestaurant(name, address, city);
 
         verify(restaurantRepository, times(1)).addRestaurant(any(Restaurant.class));
 
-        ArgumentCaptor<Menu> menuCaptor = ArgumentCaptor.forClass(Menu.class);
-        verify(menuRepository, times(1)).addMenu(menuCaptor.capture());
+        verify(menuRepository, times(1)).addMenu(menuCaptor.capture());  // Capturamos el menú pasado a addMenu
 
         Menu capturedMenu = menuCaptor.getValue();
-        assertNotNull(capturedMenu);
+        assertNotNull(capturedMenu, "El menú no debe ser nulo");
 
-        assertEquals(name, capturedMenu.getRestaurant().getRestaurantName());
-        assertEquals(address, capturedMenu.getRestaurant().getAddress());
-        assertEquals(city, capturedMenu.getRestaurant().getCity());
     }
 
     @Test

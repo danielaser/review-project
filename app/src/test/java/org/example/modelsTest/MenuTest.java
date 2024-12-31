@@ -87,6 +87,7 @@ class MenuTest {
     @Test
     @DisplayName("Get Restaurant: Should return the associated restaurant")
     void testGetRestaurant() {
+        menu.setRestaurant(mockRestaurant);
         assertEquals(mockRestaurant, menu.getRestaurant());
     }
 

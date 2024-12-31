@@ -80,4 +80,8 @@ public class Restaurant implements IObservable {
     public Menu getMenu() {
         return menu;
     }
+
+    public void setMenu(Menu menu) {
+
+    }
 }
