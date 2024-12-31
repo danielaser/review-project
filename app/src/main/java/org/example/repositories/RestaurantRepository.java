@@ -36,4 +36,8 @@ public class RestaurantRepository {
     public Map<String, Restaurant> getRestaurants() {
         return restaurants;
     }
+
+    public void reset() {
+        restaurants.clear();
+    }
 }

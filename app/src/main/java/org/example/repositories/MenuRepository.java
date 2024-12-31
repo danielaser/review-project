@@ -25,6 +25,10 @@ public class MenuRepository {
         return instance;
     }
 
+    public void reset() {
+        menus.clear();
+    }
+
     public void addMenu(Menu menu) {
         String restaurantName = menu.getRestaurant().getRestaurantName();
         if (!menus.containsKey(restaurantName)) {

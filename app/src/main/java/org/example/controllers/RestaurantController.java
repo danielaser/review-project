@@ -9,6 +9,10 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
+    
     public RestaurantController() {
         this.restaurantService = new RestaurantService();
     }

@@ -10,8 +10,8 @@ import org.example.repositories.RestaurantRepository;
 import java.util.Set;
 
 public class MenuService {
-    private final MenuRepository menuRepository;
-    private final RestaurantRepository restaurantRepository;
+    public MenuRepository menuRepository;
+    public RestaurantRepository restaurantRepository;
 
     public MenuService() {
         this.menuRepository = MenuRepository.getInstance();
@@ -25,22 +25,28 @@ public class MenuService {
 
         restaurant = existRestaurant(restaurantName, restaurant);
 
-        if (restaurant.getMenu() != null) {
-            restaurant.getMenu().addPlate(plate);
+        Menu menu = restaurant.getMenu();
+
+        if (menu != null) {
+            menu.addPlate(plate);
             System.out.println("Plato " + plateName + " agregado al menu de " + restaurantName);
-        } else System.out.println("Error: El restaurante no tiene un menu asociado.");
+        } else {
+            System.out.println("Error: El restaurante no tiene un menu asociado.");
+        }
     }
+
 
     private Restaurant existRestaurant(String restaurantName, Restaurant restaurant) {
         if (restaurant == null) {
             System.out.println("Restaurante no encontrado. Creando nuevo restaurante...");
             restaurant = new Restaurant(restaurantName);
             restaurantRepository.addRestaurant(restaurant);
-            Menu menu = new Menu(restaurant);
+            Menu menu = new Menu();
             menuRepository.addMenu(menu);
         }
         return restaurant;
     }
+
 
     public void deleteRestaurantPlate(String restaurantName, String plateName) {
         Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);

@@ -39,4 +39,8 @@ public class ReviewRepository {
             }
         return count > 0 ? totalRating / count : 0;
     }
+
+    public void reset() {
+        reviews.clear();
+    }
 }

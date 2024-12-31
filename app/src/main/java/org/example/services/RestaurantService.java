@@ -9,12 +9,17 @@ import java.util.Map;
 
 public class RestaurantService {
 
-    private final RestaurantRepository restaurantRepository;
-    private final MenuRepository menuRepository;
+    public RestaurantRepository restaurantRepository;
+    public MenuRepository menuRepository;
 
     public RestaurantService() {
         this.restaurantRepository = RestaurantRepository.getInstance();
         this.menuRepository = MenuRepository.getInstance();
+    }
+
+    public RestaurantService(RestaurantRepository restaurantRepository1, MenuRepository menuRepository1) {
+        this.restaurantRepository = restaurantRepository1;
+        this.menuRepository = menuRepository1;
     }
 
     public void addRestaurant(String name, String address, String city) {

@@ -11,23 +11,32 @@ import java.util.LinkedList;
 
 public class ReviewService {
 
-    private final ReviewRepository reviewRepository;
-    private final RestaurantRepository restaurantRepository;
+    public ReviewRepository reviewRepository;
+    public RestaurantRepository restaurantRepository;
 
     public ReviewService() {
         this.reviewRepository = ReviewRepository.getInstance();
         this.restaurantRepository = RestaurantRepository.getInstance();
     }
 
+    public ReviewService(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository) {
+        this.reviewRepository = reviewRepository;
+        this.restaurantRepository = restaurantRepository;
+    }
+
     public void addReview(String restaurantName, Double rating, String comment) {
         Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
         if (restaurant != null) {
-            Review review = ReviewFactory.createReview(restaurant, rating, comment);
+            Review review = new Review(restaurant, rating, comment);
             reviewRepository.addReview(review);
             System.out.println("Review agregada al restaurante: " + restaurantName);
             restaurant.notifyAverageRatingChange(reviewRepository.calculateAverageRating(restaurant));
-        } else System.out.println("Restaurante no encontrado.");
+        } else {
+            System.out.println("Restaurante no encontrado.");
+        }
     }
+
+
 
     public void addPlateReview(String restaurantName, String plateName, Double rating, String comment) {
         Restaurant restaurant = restaurantRepository.getRestaurant(restaurantName);
