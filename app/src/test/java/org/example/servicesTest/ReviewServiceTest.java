@@ -50,6 +50,9 @@ class ReviewServiceTest {
         Plate plate = new Plate("Plato de Ejemplo", 15.0);
         when(menu.getPlateByName("Plato de Ejemplo")).thenReturn(plate);
 
+        // Configurar el comportamiento del reviewRepository para que calcule un promedio de 4.5
+        when(reviewRepository.calculateAverageRating(restaurant)).thenReturn(4.5);
+
         // Registrar el mockObserver como observador del restaurante
         restaurant.addObserver(mockObserver);
     }
@@ -61,13 +64,12 @@ class ReviewServiceTest {
         // Llamar al método addReview
         reviewService.addReview("Restaurante Ejemplo", 4.5, "Excelente comida");
 
-        // Verificar que el método notifyAverageRatingChange fue llamado en el restaurante
+        // Verificar que el método notifyAverageRatingChange fue llamado con el valor esperado
         verify(restaurant).notifyAverageRatingChange(4.5);
 
         // Verificar que el observador fue notificado con el mensaje correcto
-        verify(mockObserver).update("Calificación promedio del restaurante Restaurante Ejemplo actualizada a: 4.5");
+        verify(mockObserver).update("Calificacion promedio del restaurante Restaurante Ejemplo actualizada a: 4.5");
     }
-
 
 
     @Test
