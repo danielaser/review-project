@@ -13,6 +13,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -33,72 +37,26 @@ class ReviewServiceTest {
         reviewRepository = mock(ReviewRepository.class);
         mockObserver = mock(IObserver.class);
 
-        // Crear una instancia de ReviewService y asignar repositorios
         reviewService = new ReviewService(reviewRepository, restaurantRepository);
 
-        // Crear un restaurante mock
         restaurant = mock(Restaurant.class);
 
-        // Crear y asignar un menú al restaurante
         Menu menu = mock(Menu.class);
         when(restaurant.getMenu()).thenReturn(menu);
 
-        // Simular la búsqueda de un restaurante por nombre
         when(restaurantRepository.getRestaurant("Restaurante Ejemplo")).thenReturn(restaurant);
 
-        // Crear un plato para el menú y configurarlo para que se devuelva cuando se solicite
         Plate plate = new Plate("Plato de Ejemplo", 15.0);
         when(menu.getPlateByName("Plato de Ejemplo")).thenReturn(plate);
 
-        // Configurar el comportamiento del reviewRepository para que calcule un promedio de 4.5
         when(reviewRepository.calculateAverageRating(restaurant)).thenReturn(4.5);
 
-        // Registrar el mockObserver como observador del restaurante
         restaurant.addObserver(mockObserver);
     }
 
 
-
-    @Test
-    void testAddReview() {
-        // Llamar al método addReview
-        reviewService.addReview("Restaurante Ejemplo", 4.5, "Excelente comida");
-
-        // Verificar que el método notifyAverageRatingChange fue llamado con el valor esperado
-        verify(restaurant).notifyAverageRatingChange(4.5);
-
-        // Verificar que el observador fue notificado con el mensaje correcto
-        verify(mockObserver).update("Calificacion promedio del restaurante Restaurante Ejemplo actualizada a: 4.5");
-    }
-
-
-    @Test
-    void testAddPlateReview() {
-        // Configurar los mocks
-        RestaurantRepository restaurantRepository = mock(RestaurantRepository.class);
-        ReviewRepository reviewRepository = mock(ReviewRepository.class);
-        ReviewService reviewService = new ReviewService(reviewRepository, restaurantRepository);
-
-        Restaurant restaurant = mock(Restaurant.class);
-        when(restaurantRepository.getRestaurant("Restaurante Ejemplo")).thenReturn(restaurant);
-
-        // Crear un plato mock para el menú
-        Plate plate = new Plate("Plato de Ejemplo", 15.0);
-        when(restaurant.getMenu().getPlateByName("Plato de Ejemplo")).thenReturn(plate);
-
-        // Test de la función de añadir reseña a un plato
-        reviewService.addPlateReview("Restaurante Ejemplo", "Plato de Ejemplo", 4.5, "Muy sabroso");
-
-        // Verificar que el repositorio agregue la reseña
-        verify(reviewRepository).addReview(any(Review.class));
-
-        // Verificar que se llame al método notifyAverageRatingChange del plato
-        verify(restaurant).notifyAverageRatingChange(anyDouble());
-    }
-
     @Test
     void testGetRestaurantReviews() {
-        // Configurar los mocks
         RestaurantRepository restaurantRepository = mock(RestaurantRepository.class);
         ReviewRepository reviewRepository = mock(ReviewRepository.class);
         ReviewService reviewService = new ReviewService(reviewRepository, restaurantRepository);
@@ -106,105 +64,155 @@ class ReviewServiceTest {
         Restaurant restaurant = mock(Restaurant.class);
         when(restaurantRepository.getRestaurant("Restaurante Ejemplo")).thenReturn(restaurant);
 
-        // Crear una lista de reseñas para el restaurante
         LinkedList<Review> mockReviews = new LinkedList<>();
         mockReviews.add(new Review(restaurant, 4.0, "Excelente comida"));
 
-        // Simular el comportamiento del repositorio
         when(reviewRepository.getReviewsByTarget(restaurant)).thenReturn(mockReviews);
         when(reviewRepository.calculateAverageRating(restaurant)).thenReturn(4.0);
 
-        // Obtener las reseñas del restaurante
         LinkedList<Review> reviews = reviewService.getRestaurantReviews("Restaurante Ejemplo");
 
-        // Verificar que se haya llamado al repositorio para obtener las reseñas
         verify(reviewRepository).getReviewsByTarget(restaurant);
 
-        // Asegurarse de que las reseñas se devuelvan correctamente
         assertEquals(1, reviews.size());
         assertEquals(4.0, reviews.get(0).getRating());
         assertEquals("Excelente comida", reviews.get(0).getComment());
     }
 
-    @Test
-    void testGetPlateReviews() {
-        // Configurar los mocks
-        RestaurantRepository restaurantRepository = mock(RestaurantRepository.class);
-        ReviewRepository reviewRepository = mock(ReviewRepository.class);
-        ReviewService reviewService = new ReviewService(reviewRepository, restaurantRepository);
-
-        Restaurant restaurant = mock(Restaurant.class);
-        when(restaurantRepository.getRestaurant("Restaurante Ejemplo")).thenReturn(restaurant);
-
-        // Crear un plato mock para el menú
-        Plate plate = new Plate("Plato de Ejemplo", 15.0);
-        when(restaurant.getMenu().getPlateByName("Plato de Ejemplo")).thenReturn(plate);
-
-        // Crear una lista de reseñas para el plato
-        LinkedList<Review> mockReviews = new LinkedList<>();
-        mockReviews.add(new Review(restaurant, 5.0, "Excelente plato"));
-
-        // Simular el comportamiento del repositorio
-        when(reviewRepository.getReviewsByTarget(plate)).thenReturn(mockReviews);
-        when(reviewRepository.calculateAverageRating(plate)).thenReturn(5.0);
-
-        // Obtener las reseñas del plato
-        LinkedList<Review> reviews = reviewService.getPlateReviews("Restaurante Ejemplo", "Plato de Ejemplo");
-
-        // Verificar que se haya llamado al repositorio para obtener las reseñas
-        verify(reviewRepository).getReviewsByTarget(plate);
-
-        // Asegurarse de que las reseñas se devuelvan correctamente
-        assertEquals(1, reviews.size());
-        assertEquals(5.0, reviews.get(0).getRating());
-        assertEquals("Excelente plato", reviews.get(0).getComment());
-    }
-
 
     @Test
     void testAddReviewRestaurantNotFound() {
-        // Test para cuando no se encuentra el restaurante
         when(restaurantRepository.getRestaurant("Restaurante Inexistente")).thenReturn(null);
 
         reviewService.addReview("Restaurante Inexistente", 4.0, "Excelente servicio");
 
-        // Verificar que no se intente agregar reseña y no se haga ninguna notificación
         verify(reviewRepository, never()).addReview(any(Review.class));
         verify(restaurant, never()).notifyAverageRatingChange(anyDouble());
     }
 
     @Test
     void testAddPlateReviewPlateNotFound() {
-        // Test para cuando no se encuentra el plato en el menú
         when(restaurant.getMenu().getPlateByName("Plato Inexistente")).thenReturn(null);
 
         reviewService.addPlateReview("Restaurante Ejemplo", "Plato Inexistente", 4.5, "Muy sabroso");
 
-        // Verificar que no se intente agregar reseña y no se haga ninguna notificación
         verify(reviewRepository, never()).addReview(any(Review.class));
         verify(restaurant, never()).notifyAverageRatingChange(anyDouble());
     }
 
     @Test
     void testGetRestaurantReviewsNotFound() {
-        // Test para cuando no se encuentra el restaurante
         when(restaurantRepository.getRestaurant("Restaurante Inexistente")).thenReturn(null);
 
         LinkedList<Review> reviews = reviewService.getRestaurantReviews("Restaurante Inexistente");
 
-        // Verificar que la lista de reseñas devuelta está vacía
         assertTrue(reviews.isEmpty());
     }
 
     @Test
     void testGetPlateReviewsNotFound() {
-        // Test para cuando no se encuentra el plato
         when(restaurantRepository.getRestaurant("Restaurante Ejemplo")).thenReturn(restaurant);
         when(restaurant.getMenu().getPlateByName("Plato Inexistente")).thenReturn(null);
 
         LinkedList<Review> reviews = reviewService.getPlateReviews("Restaurante Ejemplo", "Plato Inexistente");
 
-        // Verificar que la lista de reseñas devuelta está vacía
         assertTrue(reviews.isEmpty());
     }
+
+    @Test
+    void testAddReviewWhenRestaurantExists() {
+        String restaurantName = "Restaurante Ejemplo";
+        double rating = 4.0;
+        String comment = "Excelente comida";
+
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(restaurant);
+
+        reviewService.addReview(restaurantName, rating, comment);
+
+        verify(reviewRepository).addReview(any(Review.class));
+        verify(restaurant).notifyAverageRatingChange(anyDouble());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        reviewService.addReview(restaurantName, rating, comment);
+        assertTrue(outputStream.toString().contains("Review agregada al restaurante"));
+    }
+
+    @Test
+    void testAddPlateReviewWhenPlateExists() {
+        String restaurantName = "Restaurante Ejemplo";
+        String plateName = "Plato de Ejemplo";
+        double rating = 4.5;
+        String comment = "Muy sabroso";
+
+        Plate plate = mock(Plate.class);
+        when(restaurant.getMenu().getPlateByName(plateName)).thenReturn(plate);
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(restaurant);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        reviewService.addPlateReview(restaurantName, plateName, rating, comment);
+
+        verify(reviewRepository).addReview(any(Review.class));
+        verify(plate).notifyAverageRatingChange(anyDouble());
+
+        assertTrue(outputStream.toString().contains("Review agregada al plato"));
+
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+    }
+
+    @Test
+    void testGetRestaurantReviewsWhenReviewsExist() {
+        String restaurantName = "Restaurante Ejemplo";
+        Restaurant restaurant = mock(Restaurant.class);
+        LinkedList<Review> mockReviews = new LinkedList<>();
+        mockReviews.add(new Review(restaurant, 4.5, "Excelente comida"));
+
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(restaurant);
+        when(reviewRepository.getReviewsByTarget(restaurant)).thenReturn(mockReviews);
+        when(reviewRepository.calculateAverageRating(restaurant)).thenReturn(4.5);
+
+        LinkedList<Review> reviews = reviewService.getRestaurantReviews(restaurantName);
+
+        assertEquals(1, reviews.size());
+        assertEquals(4.5, reviews.get(0).getRating());
+        assertEquals("Excelente comida", reviews.get(0).getComment());
+    }
+
+    @Test
+    void testGetPlateReviewsWhenReviewsExist() {
+        String restaurantName = "Restaurante Ejemplo";
+        String plateName = "Plato de Ejemplo";
+        Plate plate = mock(Plate.class);
+        LinkedList<Review> mockReviews = new LinkedList<>();
+        mockReviews.add(new Review(restaurant, 4.5, "Muy sabroso"));
+
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(restaurant);
+        when(restaurant.getMenu().getPlateByName(plateName)).thenReturn(plate);
+        when(reviewRepository.getReviewsByTarget(plate)).thenReturn(mockReviews);
+        when(reviewRepository.calculateAverageRating(plate)).thenReturn(4.5);
+
+        LinkedList<Review> reviews = reviewService.getPlateReviews(restaurantName, plateName);
+
+        assertEquals(1, reviews.size());
+        assertEquals(4.5, reviews.get(0).getRating());
+        assertEquals("Muy sabroso", reviews.get(0).getComment());
+    }
+
+    @Test
+    void testGetRestaurantReviewsWhenNoReviewsExist() {
+        String restaurantName = "Restaurante Ejemplo";
+        LinkedList<Review> mockReviews = new LinkedList<>();
+
+        when(restaurantRepository.getRestaurant(restaurantName)).thenReturn(restaurant);
+        when(reviewRepository.getReviewsByTarget(restaurant)).thenReturn(mockReviews);
+
+        LinkedList<Review> reviews = reviewService.getRestaurantReviews(restaurantName);
+
+        assertTrue(reviews.isEmpty());
+    }
+
+
+
 }
