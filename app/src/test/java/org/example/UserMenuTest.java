@@ -13,6 +13,7 @@ import org.example.command.review.AddPlateReviewCommand;
 import org.example.command.review.AddRestaurantReviewCommand;
 import org.example.command.review.GetReviewsPlate;
 import org.example.command.review.GetReviewsRestaurant;
+import org.example.command.utils.ConsoleHandler;
 import org.example.command.utils.IHandler;
 import org.example.controllers.MenuController;
 import org.example.controllers.RestaurantController;
@@ -22,7 +23,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+
+import java.io.ByteArrayInputStream;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class UserMenuTest {
@@ -372,4 +378,5 @@ class UserMenuTest {
 
         verify(mockHandler, times(2)).readLine();
     }
+
 }
